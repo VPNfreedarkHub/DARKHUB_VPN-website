@@ -1,69 +1,61 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="fa">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>سرور رایگان V2Ray 🚀</title>
 <style>
     body {
-        background-color: #0a0f1f;
+        background-color: #0f172a;
         color: white;
-        font-family: Tahoma, sans-serif;
+        font-family: sans-serif;
         text-align: center;
-        direction: rtl;
     }
     h1 {
         font-size: 26px;
         margin-top: 20px;
     }
-    .table-container {
-        max-width: 500px;
-        margin: 20px auto;
-        padding: 15px;
-        background: #0f172a;
-        border-radius: 15px;
-        box-shadow: 0 0 15px rgba(0,0,0,0.5);
-    }
     table {
-        width: 100%;
+        margin: auto;
         border-collapse: collapse;
-        margin-top: 10px;
+        width: 90%;
+        background: #1e293b;
+        border-radius: 12px;
+        overflow: hidden;
     }
     th {
-        background: linear-gradient(90deg, #3b82f6, #8b5cf6);
-        padding: 10px;
-        border-radius: 10px;
+        background: linear-gradient(to right, #3b82f6, #9333ea);
+        padding: 12px;
     }
     td {
         padding: 10px;
-        border-bottom: 1px solid #444;
+        text-align: center;
+        border-bottom: 1px solid #334155;
     }
-    .copy-btn {
-        background: linear-gradient(90deg, #06b6d4, #3b82f6);
+    .btn-copy {
+        background: linear-gradient(to right, #06b6d4, #3b82f6);
         border: none;
-        padding: 5px 10px;
+        padding: 6px 12px;
+        color: white;
         border-radius: 8px;
         cursor: pointer;
-        color: white;
-        font-weight: bold;
     }
-    .status-online {
-        color: lightgreen;
-        font-weight: bold;
-    }
-    .status-offline {
-        color: red;
-        font-weight: bold;
-    }
+    .online { color: #22c55e; font-weight: bold; }
+    .offline { color: #ef4444; font-weight: bold; }
     .footer {
         margin-top: 15px;
-        font-size: 14px;
+        background: #1e293b;
+        padding: 10px;
+        border-radius: 12px;
+        display: inline-block;
     }
-    .footer span {
-        background: linear-gradient(90deg, #06b6d4, #3b82f6);
-        padding: 4px 8px;
-        border-radius: 8px;
+    .footer a {
+        text-decoration: none;
         color: white;
+        padding: 4px 10px;
+        background: linear-gradient(to right, #06b6d4, #3b82f6);
+        border-radius: 8px;
+        margin: 0 5px;
     }
 </style>
 </head>
@@ -71,60 +63,51 @@
 
 <h1>🚀 سرور رایگان V2Ray 🚀</h1>
 
-<div class="table-container">
-    <table>
-        <thead>
-            <tr>
-                <th>شماره</th>
-                <th>نام سرور</th>
-                <th>وضعیت</th>
-                <th>لینک</th>
-            </tr>
-        </thead>
-        <tbody id="server-table">
-            <!-- داده‌ها اینجا از گوگل شیت لود می‌شوند -->
-        </tbody>
-    </table>
-</div>
+<table id="serverTable">
+    <thead>
+        <tr>
+            <th>شماره</th>
+            <th>نام سرور</th>
+            <th>وضعیت</th>
+            <th>لینک</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- دیتا اینجا از شیت لود میشه -->
+    </tbody>
+</table>
 
 <div class="footer">
-    ساخته شده توسط <span>@the_warrior99</span> | کانال تلگرام <span>@DarkHub_VPN</span>
+    ساخته شده توسط <a href="https://t.me/the_warrior99">@the_warrior99</a> |
+    کانال تلگرام <a href="https://t.me/DarkHub_VPN">@DarkHub_VPN</a>
 </div>
 
 <script>
-const sheetURL = "https://docs.google.com/spreadsheets/d/1ByvYuNP-DZojlxCiqsr0i18j5OXBsIPPfTQDp1qjiQY/gviz/tq?tqx=out:json";
+    const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRkzWfZsWxyO8Z4QYJcghvY/edit?usp=sharing&output=tsv";
 
-fetch(sheetURL)
-.then(res => res.text())
-.then(data => {
-    const json = JSON.parse(data.substr(47).slice(0, -2));
-    const table = document.getElementById("server-table");
-    json.table.rows.forEach(row => {
-        let number = row.c[3]?.v || '';
-        let name = row.c[2]?.v || '';
-        let status = row.c[1]?.v || '';
-        let link = row.c[0]?.v || '';
+    fetch(sheetUrl)
+        .then(res => res.text())
+        .then(data => {
+            const rows = data.trim().split("\n").map(r => r.split("\t"));
+            const tbody = document.querySelector("#serverTable tbody");
+            rows.slice(1).forEach((row, i) => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td>${row[3] || i+1}</td>
+                    <td>${row[2]}</td>
+                    <td class="${row[1] === 'online' ? 'online' : 'offline'}">
+                        ${row[1] === 'online' ? '🟢 آنلاین' : '🔴 آفلاین'}
+                    </td>
+                    <td><button class="btn-copy" onclick="copyLink('${row[0]}')">کپی</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        });
 
-        let statusHTML = status === "online" 
-            ? `<span class="status-online">🟢 آنلاین</span>` 
-            : `<span class="status-offline">🔴 آفلاین</span>`;
-
-        table.innerHTML += `
-            <tr>
-                <td>${number}</td>
-                <td>${name}</td>
-                <td>${statusHTML}</td>
-                <td><button class="copy-btn" onclick="copyText('${link}')">کپی</button></td>
-            </tr>
-        `;
-    });
-});
-
-function copyText(text) {
-    navigator.clipboard.writeText(text).then(() => {
+    function copyLink(text) {
+        navigator.clipboard.writeText(text);
         alert("لینک کپی شد ✅");
-    });
-}
+    }
 </script>
 
 </body>
