@@ -1,132 +1,93 @@
-<!doctype html>
-<html lang="fa" dir="rtl">
+<!DOCTYPE html>
+<html lang="fa">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>سرورهای رایگان V2Ray</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DarkHub VPN</title>
 <style>
-  body {
-    font-family: Tahoma, sans-serif;
-    background: #0b1220;
-    color: #eaf2ff;
-    padding: 20px;
-  }
-  h1 { text-align: center; margin-bottom: 10px; }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
-  }
-  th, td {
-    padding: 10px;
-    text-align: center;
-  }
-  th {
-    background: #1f6feb;
-    color: white;
-  }
-  tr:nth-child(even) { background: rgba(255,255,255,0.05); }
-  tr:hover { background: rgba(255,255,255,0.1); }
-  .copy-btn {
-    background: #0ea5a4;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 6px;
-    color: white;
-    cursor: pointer;
-  }
-  .copy-btn:hover { background: #098b89; }
-  footer {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 14px;
-    opacity: 0.8;
-  }
-  .status-online { color: #00ff80; font-weight: bold; }
-  .status-offline { color: #ff4d4d; font-weight: bold; }
+    body {
+        background-color: #0a0a0a;
+        color: white;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        direction: rtl;
+    }
+    table {
+        margin: 20px auto;
+        border-collapse: collapse;
+        width: 90%;
+    }
+    th, td {
+        border: 1px solid #333;
+        padding: 10px;
+    }
+    th {
+        background: linear-gradient(90deg, #00c6ff, #0072ff);
+        color: white;
+    }
+    button {
+        background-color: #00c6ff;
+        border: none;
+        padding: 5px 10px;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #0072ff;
+    }
+    .footer {
+        margin-top: 20px;
+        font-size: 14px;
+    }
+    .footer a {
+        color: #00c6ff;
+        text-decoration: none;
+    }
+    img {
+        max-width: 200px;
+        margin-top: 20px;
+    }
 </style>
 </head>
 <body>
 
-<h1>🚀 سرورهای رایگان V2Ray 🚀</h1>
-<p style="text-align:center">به‌روزرسانی خودکار از Google Sheet</p>
+<h1>🚀 سرور ها دارای بروز رسانی خودکار 🚀</h1>
 
 <table>
-  <thead>
     <tr>
-      <th>شماره</th>
-      <th>نام سرور</th>
-      <th>وضعیت</th>
-      <th>لینک</th>
+        <th>شماره</th>
+        <th>نام سرور</th>
+        <th>وضعیت</th>
+        <th>لینک</th>
     </tr>
-  </thead>
-  <tbody id="serverTable">
-    <tr><td colspan="4">در حال بارگذاری...</td></tr>
-  </tbody>
+    <tr>
+        <td>1</td>
+        <td>online k</td>
+        <td>🟢 آنلاین</td>
+        <td><button onclick="copyToClipboard('vless://example1')">کپی</button></td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>online k</td>
+        <td>🔴 آفلاین</td>
+        <td><button onclick="copyToClipboard('vless://example2')">کپی</button></td>
+    </tr>
 </table>
 
-<footer>
-  📄 مشاهده Google Sheet: 
-  <a href="https://docs.google.com/spreadsheets/d/1ByvYuNP-DZojlxCiqsr0i18j5OXBsIPPfTQDp1qjiQY/edit?usp=drivesdk" target="_blank">
-    اینجا کلیک کنید
-  </a>
-</footer>
+<div class="footer">
+    ساخته شده توسط <a href="https://t.me/the_warrior99">@the_warrior99</a> |
+    کانال تلگرام <a href="https://t.me/DarkHub_VPN">@DarkHub_VPN</a>
+</div>
+
+<img src="darkhub-vpn.jpg" alt="DarkHub VPN Logo">
 
 <script>
-const sheetID = "1ByvYuNP-DZojlxCiqsr0i18j5OXBsIPPfTQDp1qjiQY";
-const sheetName = "Sheet2"; // نام تب شیت
-const gvizUrl = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheetName)}`;
-
-function parseStatus(s){
-  if(!s) return '';
-  const t = s.toLowerCase();
-  if(t.includes('on') || t.includes('online') || t.includes('متصل')) return 'status-online';
-  if(t.includes('off') || t.includes('offline') || t.includes('قطع')) return 'status-offline';
-  return '';
-}
-
-function gvizToJson(txt){
-  const start = txt.indexOf('{');
-  const end = txt.lastIndexOf('}');
-  return JSON.parse(txt.slice(start, end+1));
-}
-
-function copyToClipboard(text){
-  navigator.clipboard.writeText(text).then(()=>{
-    alert("کپی شد ✅");
-  }).catch(()=>{
-    alert("کپی نشد ❌");
-  });
-}
-
-fetch(gvizUrl)
-  .then(r=>r.text())
-  .then(txt=>{
-    const json = gvizToJson(txt);
-    const rows = json.table.rows;
-    const tbody = document.getElementById("serverTable");
-    tbody.innerHTML = "";
-    rows.forEach((r, idx)=>{
-      if(idx===0 && String(r.c[0]?.v).toLowerCase().includes("link")) return; // رد کردن هدر
-      const link = r.c[0]?.v || "";
-      const status = r.c[1]?.v || "";
-      const name = r.c[2]?.v || "";
-      const number = r.c[3]?.v || idx;
-      tbody.innerHTML += `
-        <tr>
-          <td>${number}</td>
-          <td>${name}</td>
-          <td class="${parseStatus(status)}">${status}</td>
-          <td>
-            <button class="copy-btn" onclick="copyToClipboard('${link}')">کپی</button>
-          </td>
-        </tr>
-      `;
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        alert("لینک کپی شد ✅");
     });
-  })
-  .catch(()=>{
-    document.getElementById("serverTable").innerHTML = "<tr><td colspan='4'>خطا در بارگذاری داده‌ها</td></tr>";
-  });
+}
 </script>
 
 </body>
