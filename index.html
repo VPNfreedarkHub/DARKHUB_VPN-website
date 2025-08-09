@@ -1,160 +1,133 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>سرورهای رایگان V2Ray</title>
-  <style>
-    :root {
-      --bg: #071022;
-      --card: #0b1220;
-      --muted: rgba(230, 238, 248, 0.65);
-      --accent-1: #0ea5a4;
-      --accent-2: #1f6feb;
-      --accent-3: #6f42c1;
-      --accent-4: #2d9c6b;
-    }
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    body {
-      font-family: Vazirmatn, Tahoma, Arial, sans-serif;
-      background: linear-gradient(180deg, var(--bg), #000);
-      color: #eaf2ff;
-      padding: 18px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    h1 {
-      font-size: 1.8em;
-      margin-bottom: 8px;
-      text-align: center;
-    }
-    .card {
-      background: var(--card);
-      border-radius: 16px;
-      padding: 16px;
-      width: 100%;
-      max-width: 500px;
-      margin-top: 20px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      overflow: hidden;
-      border-radius: 12px;
-    }
-    th, td {
-      padding: 12px;
-      text-align: center;
-    }
-    th {
-      background: linear-gradient(90deg, var(--accent-2), var(--accent-3));
-      color: #fff;
-    }
-    tr:nth-child(even) {
-      background-color: rgba(255,255,255,0.05);
-    }
-    tr:hover {
-      background-color: rgba(255,255,255,0.08);
-    }
-    .status-online {
-      color: #00ff80;
-      font-weight: bold;
-    }
-    .status-offline {
-      color: #ff4d4d;
-      font-weight: bold;
-    }
-    .copy-btn {
-      background: var(--accent-1);
-      border: none;
-      color: white;
-      padding: 4px 8px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 0.8em;
-    }
-    footer {
-      margin-top: 24px;
-      font-size: 0.9em;
-      opacity: 0.7;
-    }
-    .telegram {
-      display: inline-block;
-      background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
-      color: white;
-      padding: 8px 16px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: bold;
-      margin-top: 12px;
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>سرورهای رایگان V2Ray</title>
+<style>
+  body {
+    font-family: Tahoma, sans-serif;
+    background: #0b1220;
+    color: #eaf2ff;
+    padding: 20px;
+  }
+  h1 { text-align: center; margin-bottom: 10px; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+  }
+  th, td {
+    padding: 10px;
+    text-align: center;
+  }
+  th {
+    background: #1f6feb;
+    color: white;
+  }
+  tr:nth-child(even) { background: rgba(255,255,255,0.05); }
+  tr:hover { background: rgba(255,255,255,0.1); }
+  .copy-btn {
+    background: #0ea5a4;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+  }
+  .copy-btn:hover { background: #098b89; }
+  footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    opacity: 0.8;
+  }
+  .status-online { color: #00ff80; font-weight: bold; }
+  .status-offline { color: #ff4d4d; font-weight: bold; }
+</style>
 </head>
 <body>
-  <h1>🚀 سرورهای رایگان V2Ray 🚀</h1>
-  <p>به‌روزرسانی خودکار از Google Sheet</p>
 
-  <div class="card">
-    <table id="serverTable">
-      <thead>
+<h1>🚀 سرورهای رایگان V2Ray 🚀</h1>
+<p style="text-align:center">به‌روزرسانی خودکار از Google Sheet</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>شماره</th>
+      <th>نام سرور</th>
+      <th>وضعیت</th>
+      <th>لینک</th>
+    </tr>
+  </thead>
+  <tbody id="serverTable">
+    <tr><td colspan="4">در حال بارگذاری...</td></tr>
+  </tbody>
+</table>
+
+<footer>
+  📄 مشاهده Google Sheet: 
+  <a href="https://docs.google.com/spreadsheets/d/1ByvYuNP-DZojlxCiqsr0i18j5OXBsIPPfTQDp1qjiQY/edit?usp=drivesdk" target="_blank">
+    اینجا کلیک کنید
+  </a>
+</footer>
+
+<script>
+const sheetID = "1ByvYuNP-DZojlxCiqsr0i18j5OXBsIPPfTQDp1qjiQY";
+const sheetName = "Sheet2"; // نام تب شیت
+const gvizUrl = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheetName)}`;
+
+function parseStatus(s){
+  if(!s) return '';
+  const t = s.toLowerCase();
+  if(t.includes('on') || t.includes('online') || t.includes('متصل')) return 'status-online';
+  if(t.includes('off') || t.includes('offline') || t.includes('قطع')) return 'status-offline';
+  return '';
+}
+
+function gvizToJson(txt){
+  const start = txt.indexOf('{');
+  const end = txt.lastIndexOf('}');
+  return JSON.parse(txt.slice(start, end+1));
+}
+
+function copyToClipboard(text){
+  navigator.clipboard.writeText(text).then(()=>{
+    alert("کپی شد ✅");
+  }).catch(()=>{
+    alert("کپی نشد ❌");
+  });
+}
+
+fetch(gvizUrl)
+  .then(r=>r.text())
+  .then(txt=>{
+    const json = gvizToJson(txt);
+    const rows = json.table.rows;
+    const tbody = document.getElementById("serverTable");
+    tbody.innerHTML = "";
+    rows.forEach((r, idx)=>{
+      if(idx===0 && String(r.c[0]?.v).toLowerCase().includes("link")) return; // رد کردن هدر
+      const link = r.c[0]?.v || "";
+      const status = r.c[1]?.v || "";
+      const name = r.c[2]?.v || "";
+      const number = r.c[3]?.v || idx;
+      tbody.innerHTML += `
         <tr>
-          <th>نام سرور</th>
-          <th>وضعیت</th>
-          <th>لینک</th>
+          <td>${number}</td>
+          <td>${name}</td>
+          <td class="${parseStatus(status)}">${status}</td>
+          <td>
+            <button class="copy-btn" onclick="copyToClipboard('${link}')">کپی</button>
+          </td>
         </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>در حال بارگذاری...</td>
-          <td>⏳</td>
-          <td>-</td>
-        </tr>
-      </tbody>
-    </table>
-    <a class="telegram" href="https://t.me/DarkHub_VPN" target="_blank">@DarkHub_VPN تلگرام</a>
-  </div>
+      `;
+    });
+  })
+  .catch(()=>{
+    document.getElementById("serverTable").innerHTML = "<tr><td colspan='4'>خطا در بارگذاری داده‌ها</td></tr>";
+  });
+</script>
 
-  <footer>© ساخته شده با ❤️</footer>
-
-  <script>
-    const sheetUrl = "https://docs.google.com/spreadsheets/d/1ByvYuNP-DZojlxCiqsr0i18j5OXBsIPPfTQDp1qjiQY/gviz/tq?tqx=out:csv&sheet=Sheet2"; 
-    
-    fetch(sheetUrl)
-      .then(res => res.text())
-      .then(data => {
-        const rows = data.split("\n").slice(1);
-        const tableBody = document.querySelector("#serverTable tbody");
-        tableBody.innerHTML = "";
-        rows.forEach(row => {
-          const cols = row.split(",");
-          if (cols.length >= 4) {
-            const name = cols[0];
-            const status = cols[2].trim().toLowerCase();
-            const link = cols[3]?.trim();
-            tableBody.innerHTML += `
-              <tr>
-                <td>${name}</td>
-                <td class="status-${status}">${status}</td>
-                <td><button class="copy-btn" onclick="copyToClipboard('${link}')">کپی</button></td>
-              </tr>
-            `;
-          }
-        });
-      })
-      .catch(err => {
-        document.querySelector("#serverTable tbody").innerHTML = "<tr><td colspan='3'>خطا در بارگذاری</td></tr>";
-      });
-
-    function copyToClipboard(text) {
-      navigator.clipboard.writeText(text);
-      alert("لینک کپی شد!");
-    }
-  </script>
 </body>
 </html>
