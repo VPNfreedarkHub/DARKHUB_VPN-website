@@ -1,161 +1,160 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>سرورهای رایگان V2Ray</title>
-<style>
-  :root{
-    --bg:#071022;
-    --card:#0b1220;
-    --muted:rgba(230,238,248,0.65);
-    --accent-1:#0ea5a4;
-    --accent-2:#1f6feb;
-    --accent-3:#6f42c1;
-    --accent-4:#2d9c6b;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{
-    font-family: Vazirmatn, Tahoma, Arial, sans-serif;
-    background: linear-gradient(180deg,#041022 0%, var(--bg) 100%);
-    color: #eaf2ff;
-    padding:18px;
-  }
-  .top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
-  .brand{display:flex;gap:12px;align-items:center}
-  .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:800;color:#012;font-size:20px;box-shadow:0 6px 18px rgba(2,6,23,0.6)}
-  .title{font-size:18px;font-weight:700}
-  .subtitle{color:var(--muted);font-size:13px;margin-top:4px}
-
-  .rockets{display:flex;gap:8px;align-items:center}
-  .rocket{font-size:28px;display:inline-block;animation: soar 1.3s ease-in-out infinite}
-  .rocket.r2{animation-delay:0.25s}
-  @keyframes soar{0%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-8px) rotate(3deg)}100%{transform:translateY(0) rotate(-3deg)}}
-
-  .card{background:rgba(255,255,255,0.02);border-radius:12px;padding:12px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 8px 24px rgba(2,6,23,0.6)}
-
-  .table-wrap{margin-top:12px;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.03);}
-  .table-head{display:grid;grid-template-columns:1fr 140px;background:linear-gradient(90deg,var(--accent-2),var(--accent-3));padding:12px;color:#fff;font-weight:700;align-items:center}
-  .table-body{max-height:60vh;overflow:auto;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent)}
-  .row{display:grid;grid-template-columns:1fr 140px;padding:12px;align-items:center;border-bottom:1px solid rgba(255,255,255,0.02)}
-  .row:nth-child(odd){background:linear-gradient(90deg, rgba(14,165,164,0.02), transparent)}
-  .row:nth-child(even){background:linear-gradient(90deg, rgba(31,111,235,0.02), transparent)}
-  .name{font-weight:700;text-align:left;direction:ltr}
-  .statusCell{display:flex;align-items:center;gap:10px;justify-content:center}
-
-  /* animated online/offline indicators (using CSS + emoji) */
-  .indicator{width:28px;height:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:16px}
-  .online{background:linear-gradient(90deg,#34d399,#86efac);box-shadow:0 4px 12px rgba(34,197,94,0.18);color:#053}
-  .offline{background:linear-gradient(90deg,#ff7b7b,#ffb4b4);box-shadow:0 4px 12px rgba(220,38,38,0.18);color:#600}
-
-  /* pulse animations to mimic GIF-style movement */
-  .pulse-online{animation: pulse 1.3s infinite ease-in-out}
-  .pulse-offline{animation: wobble 1.1s infinite ease-in-out}
-  @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.08)}100%{transform:scale(1)}}
-  @keyframes wobble{0%{transform:translateY(0)}50%{transform:translateY(-4px) rotate(-6deg)}100%{transform:translateY(0)}}
-
-  .muted{color:var(--muted);font-size:13px}
-  .tg{background:linear-gradient(90deg,var(--accent-1),var(--accent-2));color:#012;padding:8px 12px;border-radius:10px;font-weight:800;text-decoration:none}
-
-  footer{margin-top:14px;text-align:center;color:var(--muted);font-size:13px}
-
-  /* responsiveness */
-  @media (max-width:600px){
-    .table-head{grid-template-columns:1fr 120px;padding:10px}
-    .row{grid-template-columns:1fr 120px;padding:10px}
-    .logo{width:46px;height:46px;font-size:18px}
-    .rocket{font-size:24px}
-  }
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>سرورهای رایگان V2Ray</title>
+  <style>
+    :root {
+      --bg: #071022;
+      --card: #0b1220;
+      --muted: rgba(230, 238, 248, 0.65);
+      --accent-1: #0ea5a4;
+      --accent-2: #1f6feb;
+      --accent-3: #6f42c1;
+      --accent-4: #2d9c6b;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: Vazirmatn, Tahoma, Arial, sans-serif;
+      background: linear-gradient(180deg, var(--bg), #000);
+      color: #eaf2ff;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 {
+      font-size: 1.8em;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    .card {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 16px;
+      width: 100%;
+      max-width: 500px;
+      margin-top: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 12px;
+    }
+    th, td {
+      padding: 12px;
+      text-align: center;
+    }
+    th {
+      background: linear-gradient(90deg, var(--accent-2), var(--accent-3));
+      color: #fff;
+    }
+    tr:nth-child(even) {
+      background-color: rgba(255,255,255,0.05);
+    }
+    tr:hover {
+      background-color: rgba(255,255,255,0.08);
+    }
+    .status-online {
+      color: #00ff80;
+      font-weight: bold;
+    }
+    .status-offline {
+      color: #ff4d4d;
+      font-weight: bold;
+    }
+    .copy-btn {
+      background: var(--accent-1);
+      border: none;
+      color: white;
+      padding: 4px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.8em;
+    }
+    footer {
+      margin-top: 24px;
+      font-size: 0.9em;
+      opacity: 0.7;
+    }
+    .telegram {
+      display: inline-block;
+      background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      margin-top: 12px;
+    }
+  </style>
 </head>
 <body>
-  <div class="top">
-    <div class="brand">
-      <div class="logo">V</div>
-      <div>
-        <div class="title">سرورهای رایگان V2Ray</div>
-        <div class="subtitle">به‌روز — فقط تماس از طریق تلگرام</div>
-      </div>
-    </div>
-    <div class="rockets"><span class="rocket">🚀</span><span class="rocket r2">🚀</span></div>
-  </div>
+  <h1>🚀 سرورهای رایگان V2Ray 🚀</h1>
+  <p>به‌روزرسانی خودکار از Google Sheet</p>
 
   <div class="card">
-    <div class="table-wrap">
-      <div class="table-head"><div>نام و سرور</div><div>وضعیت</div></div>
-      <div class="table-body" id="tableBody" aria-live="polite">
-        <!-- rows will be injected here -->
-      </div>
-    </div>
-
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap">
-      <div class="muted">برای ویرایش سرورها به Google Sheet برو — تغییرات خودکار در سایت نمایش داده می‌شود.</div>
-      <a class="tg" id="tgLink" href="https://t.me/DarkHub_VPN" target="_blank">تلگرام: @DarkHub_VPN</a>
-    </div>
+    <table id="serverTable">
+      <thead>
+        <tr>
+          <th>نام سرور</th>
+          <th>وضعیت</th>
+          <th>لینک</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>در حال بارگذاری...</td>
+          <td>⏳</td>
+          <td>-</td>
+        </tr>
+      </tbody>
+    </table>
+    <a class="telegram" href="https://t.me/DarkHub_VPN" target="_blank">@DarkHub_VPN تلگرام</a>
   </div>
 
-  <footer>ساخته‌شده با ❤️ — © <span id="year"></span></footer>
+  <footer>© ساخته شده با ❤️</footer>
 
-<script>
-  document.getElementById('year').textContent = new Date().getFullYear();
+  <script>
+    const sheetUrl = "https://docs.google.com/spreadsheets/d/1ByvYuNP-DZojlxCiqsr0i18j5OXBsIPPfTQDp1qjiQY/gviz/tq?tqx=out:csv&sheet=Sheet2"; 
+    
+    fetch(sheetUrl)
+      .then(res => res.text())
+      .then(data => {
+        const rows = data.split("\n").slice(1);
+        const tableBody = document.querySelector("#serverTable tbody");
+        tableBody.innerHTML = "";
+        rows.forEach(row => {
+          const cols = row.split(",");
+          if (cols.length >= 4) {
+            const name = cols[0];
+            const status = cols[2].trim().toLowerCase();
+            const link = cols[3]?.trim();
+            tableBody.innerHTML += `
+              <tr>
+                <td>${name}</td>
+                <td class="status-${status}">${status}</td>
+                <td><button class="copy-btn" onclick="copyToClipboard('${link}')">کپی</button></td>
+              </tr>
+            `;
+          }
+        });
+      })
+      .catch(err => {
+        document.querySelector("#serverTable tbody").innerHTML = "<tr><td colspan='3'>خطا در بارگذاری</td></tr>";
+      });
 
-  // ====== CONFIG ======
-  // جایگزین کن با sheetID و sheetName خودت در صورت نیاز
-  const sheetID = "1ByvYuNP-DZojlxCiqsr0i18j5OXBsIPPfTQDp1qjiQY";
-  const sheetName = "Sheet2"; // اگر نام شیت فرق داره عوض کن
-  const gvizUrl = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheetName)}`;
-  // ====================
-
-  function parseStatus(s){
-    if(!s) return 'unknown';
-    const t = String(s).trim().toLowerCase();
-    if(t.includes('on') || t.includes('متصل') || t.includes('online') || t.includes('1') ) return 'online';
-    if(t.includes('off') || t.includes('قطع') || t.includes('offline') || t.includes('0') ) return 'offline';
-    return 'unknown';
-  }
-
-  fetch(gvizUrl).then(r=>r.text()).then(txt=>{
-    // gviz returns something like: /*O_o*/
-google.visualization.Query.setResponse(...);
-    const json = JSON.parse(txt.substr(47).slice(0,-2));
-    const rows = json.table.rows || [];
-    const body = document.getElementById('tableBody');
-    body.innerHTML = '';
-    rows.forEach((row, idx)=>{
-      // Expecting: column B contains combined name+server, column C contains status.
-      const nameCell = row.c[1] && row.c[1].v ? row.c[1].v : '';
-      const statusRaw = row.c[2] && row.c[2].v ? row.c[2].v : '';
-      const status = parseStatus(statusRaw);
-
-      const div = document.createElement('div');
-      div.className = 'row';
-      const nameDiv = document.createElement('div');
-      nameDiv.className = 'name';
-      // keep direction LTR for server text if it contains ascii addresses
-      nameDiv.innerHTML = nameCell;
-
-      const statusDiv = document.createElement('div');
-      statusDiv.className = 'statusCell';
-
-      const ind = document.createElement('span');
-      ind.className = 'indicator ' + (status === 'online' ? 'online pulse-online' : status === 'offline' ? 'offline pulse-offline' : '');
-      ind.textContent = status === 'online' ? '✅' : status === 'offline' ? '❌' : '—';
-
-      const txt = document.createElement('span');
-      txt.textContent = status === 'online' ? 'متصل' : status === 'offline' ? 'قطع' : (statusRaw || '—');
-      txt.style.fontWeight='700';
-
-      statusDiv.appendChild(ind);
-      statusDiv.appendChild(txt);
-
-      div.appendChild(nameDiv);
-      div.appendChild(statusDiv);
-      body.appendChild(div);
-    });
-  }).catch(err=>{
-    document.getElementById('tableBody').innerHTML = '<div style="padding:18px" class="muted">خطا در بارگذاری شیت — مطمئن شو شیت عمومی (Viewer) شده و sheetName درست است.</div>';
-    console.error(err);
-  });
-</script>
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text);
+      alert("لینک کپی شد!");
+    }
+  </script>
 </body>
 </html>
