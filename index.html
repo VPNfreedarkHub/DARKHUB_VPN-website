@@ -1,114 +1,238 @@
-<!DOCTYPE html>
-<html lang="fa">
+<!doctype html>
+<html lang="fa" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>سرور رایگان V2Ray 🚀</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>سرور رایگان V2Ray</title>
 <style>
-    body {
-        background-color: #0f172a;
-        color: white;
-        font-family: sans-serif;
-        text-align: center;
-    }
-    h1 {
-        font-size: 26px;
-        margin-top: 20px;
-    }
-    table {
-        margin: auto;
-        border-collapse: collapse;
-        width: 90%;
-        background: #1e293b;
-        border-radius: 12px;
-        overflow: hidden;
-    }
-    th {
-        background: linear-gradient(to right, #3b82f6, #9333ea);
-        padding: 12px;
-    }
-    td {
-        padding: 10px;
-        text-align: center;
-        border-bottom: 1px solid #334155;
-    }
-    .btn-copy {
-        background: linear-gradient(to right, #06b6d4, #3b82f6);
-        border: none;
-        padding: 6px 12px;
-        color: white;
-        border-radius: 8px;
-        cursor: pointer;
-    }
-    .online { color: #22c55e; font-weight: bold; }
-    .offline { color: #ef4444; font-weight: bold; }
-    .footer {
-        margin-top: 15px;
-        background: #1e293b;
-        padding: 10px;
-        border-radius: 12px;
-        display: inline-block;
-    }
-    .footer a {
-        text-decoration: none;
-        color: white;
-        padding: 4px 10px;
-        background: linear-gradient(to right, #06b6d4, #3b82f6);
-        border-radius: 8px;
-        margin: 0 5px;
-    }
+:root{
+  --bg:#071022;
+  --card:#0b1220;
+  --muted:rgba(230,238,248,0.65);
+  --accent-1:#0ea5a4;
+  --accent-2:#1f6feb;
+  --accent-3:#6f42c1;
+  --accent-4:#2d9c6b;
+  --btn:#67c7b9;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family: Vazirmatn, Tahoma, Arial, sans-serif;
+  background: linear-gradient(180deg,#041022 0%, var(--bg) 100%);
+  color: #eaf2ff;
+  padding:22px;
+  text-align: center;
+}
+.header {
+  margin-bottom:18px;
+}
+h1{
+  font-size:30px;
+  margin-bottom:6px;
+  font-weight:800;
+}
+.subtitle{
+  color:var(--muted);
+  margin-bottom:14px;
+}
+
+/* rocket animation */
+.rocket {
+  display:inline-block;
+  animation: float 1s infinite ease-in-out;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+/* card / table */
+.card{
+  max-width:920px;
+  margin:0 auto;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius:12px;
+  padding:16px;
+  border:1px solid rgba(255,255,255,0.03);
+  box-shadow:0 10px 30px rgba(0,0,0,0.6);
+}
+.table-head{
+  display:grid;
+  grid-template-columns:80px 1fr 180px 100px;
+  gap:8px;
+  align-items:center;
+  padding:10px;
+  border-radius:8px;
+  background:linear-gradient(90deg,var(--accent-2),var(--accent-3));
+  color:#fff;
+  font-weight:700;
+}
+.table-body{
+  margin-top:12px;
+  max-height:56vh;
+  overflow:auto;
+}
+.row{
+  display:grid;
+  grid-template-columns:80px 1fr 180px 100px;
+  gap:8px;
+  align-items:center;
+  padding:12px;
+  border-bottom:1px solid rgba(255,255,255,0.03);
+}
+.row:nth-child(odd){ background: rgba(255,255,255,0.01); }
+
+/* copy button */
+.copy-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(90deg,var(--accent-1),var(--accent-2));
+  color:#012;
+  border-radius:10px;
+  padding:8px 10px;
+  cursor:pointer;
+  font-weight:800;
+  user-select:none;
+  transition:transform .12s;
+}
+.copy-btn:active{ transform:translateY(2px); }
+
+/* status */
+.status-wrap{display:flex;align-items:center;gap:8px;justify-content:center}
+.status-text{font-weight:700}
+.indicator{
+  width:14px;height:14px;border-radius:50%;display:inline-block;
+}
+.online{ background:linear-gradient(90deg,#34d399,#86efac); animation: pulse 1.3s infinite; }
+.offline{ background:linear-gradient(90deg,#ff7b7b,#ffb4b4); animation: wobble 1.1s infinite; }
+@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.12)}100%{transform:scale(1)}}
+@keyframes wobble{0%{transform:translateY(0)}50%{transform:translateY(-2px)}100%{transform:translateY(0)}}
+
+/* name cell */
+.nameCell{font-weight:700;text-align:left;direction:ltr;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* footer box for ids */
+.info-box{
+  margin-top:18px;
+  display:flex;
+  gap:12px;
+  justify-content:center;
+  align-items:center;
+  flex-wrap:wrap;
+}
+.id-box{
+  background:linear-gradient(90deg,var(--accent-1),var(--accent-2));
+  color:#012;padding:8px 12px;border-radius:12px;font-weight:800;text-decoration:none;
+}
+.small-muted{color:var(--muted);font-size:13px;margin-top:8px}
+
+/* responsive */
+@media (max-width:720px){
+  .table-head, .row{grid-template-columns:60px 1fr 120px 80px}
+  h1{font-size:24px}
+}
 </style>
 </head>
 <body>
 
-<h1>🚀 سرور رایگان V2Ray 🚀</h1>
+  <div class="header">
+    <h1><span class="rocket">🚀</span> سرور رایگان V2Ray <span class="rocket">🚀</span></h1>
+    <div class="subtitle">V2ray سرور رایگان</div>
+  </div>
 
-<table id="serverTable">
-    <thead>
-        <tr>
-            <th>شماره</th>
-            <th>نام سرور</th>
-            <th>وضعیت</th>
-            <th>لینک</th>
-        </tr>
-    </thead>
-    <tbody>
-        <!-- دیتا اینجا از شیت لود میشه -->
-    </tbody>
-</table>
+  <div class="card" role="region" aria-label="سرورها">
+    <div class="table-head"><div>شماره</div><div>نام سرور</div><div>وضعیت</div><div>لینک</div></div>
 
-<div class="footer">
-    ساخته شده توسط <a href="https://t.me/the_warrior99">@the_warrior99</a> |
-    کانال تلگرام <a href="https://t.me/DarkHub_VPN">@DarkHub_VPN</a>
-</div>
+    <div class="table-body" id="tableBody">
+      <!-- rows injected here -->
+    </div>
+
+    <div class="info-box">
+      <div class="small-muted">ساخته شده توسط</div>
+      <a class="id-box" href="https://t.me/the_warrior99" target="_blank">@the_warrior99</a>
+      <div class="small-muted">| کانال تلگرام</div>
+      <a class="id-box" href="https://t.me/DarkHub_VPN" target="_blank">@DarkHub_VPN</a>
+    </div>
+    <div class="small-muted">© ساخته شده با ❤️</div>
+  </div>
 
 <script>
-    const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRkzWfZsWxyO8Z4QYJcghvY/edit?usp=sharing&output=tsv";
+  const sheetID = "1ByvYuNP-DZojlxCiqsr0i18j5OXBsIPPfTQDp1qjiQY";
+  const sheetName = "Sheet2";
+  const gvizUrl = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheetName)}`;
 
-    fetch(sheetUrl)
-        .then(res => res.text())
-        .then(data => {
-            const rows = data.trim().split("\n").map(r => r.split("\t"));
-            const tbody = document.querySelector("#serverTable tbody");
-            rows.slice(1).forEach((row, i) => {
-                const tr = document.createElement("tr");
-                tr.innerHTML = `
-                    <td>${row[3] || i+1}</td>
-                    <td>${row[2]}</td>
-                    <td class="${row[1] === 'online' ? 'online' : 'offline'}">
-                        ${row[1] === 'online' ? '🟢 آنلاین' : '🔴 آفلاین'}
-                    </td>
-                    <td><button class="btn-copy" onclick="copyLink('${row[0]}')">کپی</button></td>
-                `;
-                tbody.appendChild(tr);
-            });
+  function parseStatus(s){
+    if(!s) return 'unknown';
+    const t = String(s).trim().toLowerCase();
+    if(t.includes('on') || t.includes('متصل') || t.includes('online') || t === '1') return 'online';
+    if(t.includes('off') || t.includes('قطع') || t.includes('offline') || t === '0') return 'offline';
+    return 'unknown';
+  }
+
+  fetch(gvizUrl).then(r=>r.text()).then(txt=>{
+    const jsonText = txt.substr(txt.indexOf('{'));
+    const json = JSON.parse(jsonText.slice(0, jsonText.lastIndexOf(')')));
+    const rows = json.table.rows || [];
+    const body = document.getElementById('tableBody');
+    body.innerHTML = '';
+
+    for(let i=1;i<rows.length;i++){
+      const row = rows[i];
+      const linkCell = row.c[0]?.v || '';
+      const statusRaw = row.c[1]?.v || '';
+      const nameCell = row.c[2]?.v || '';
+      const numberCell = row.c[3]?.v || i;
+
+      const status = parseStatus(statusRaw);
+
+      const div = document.createElement('div');
+      div.className = 'row';
+
+      const num = document.createElement('div');
+      num.textContent = numberCell;
+
+      const name = document.createElement('div');
+      name.className = 'nameCell';
+      name.textContent = nameCell || 'server ' + numberCell;
+
+      const statusWrap = document.createElement('div');
+      statusWrap.className = 'status-wrap';
+      const ind = document.createElement('span');
+      ind.className = 'indicator ' + (status === 'online' ? 'online' : status === 'offline' ? 'offline' : '');
+      const txt = document.createElement('span');
+      txt.className = 'status-text';
+      txt.textContent = status === 'online' ? 'آنلاین' : status === 'offline' ? 'آفلاین' : statusRaw;
+      statusWrap.appendChild(ind);
+      statusWrap.appendChild(txt);
+
+      const linkBox = document.createElement('div');
+      const copyBtn = document.createElement('button');
+      copyBtn.className = 'copy-btn';
+      copyBtn.textContent = 'کپی';
+      copyBtn.onclick = ()=> {
+        if(!linkCell){ alert('لینک موجود نیست.'); return; }
+        navigator.clipboard.writeText(linkCell).then(()=>{
+          copyBtn.textContent = 'کپی شد';
+          setTimeout(()=>copyBtn.textContent='کپی',1200);
         });
+      };
+      linkBox.appendChild(copyBtn);
 
-    function copyLink(text) {
-        navigator.clipboard.writeText(text);
-        alert("لینک کپی شد ✅");
+      div.appendChild(num);
+      div.appendChild(name);
+      div.appendChild(statusWrap);
+      div.appendChild(linkBox);
+
+      body.appendChild(div);
     }
-</script>
 
+    if(rows.length <= 1){
+      body.innerHTML = '<div style="padding:18px;color:var(--muted)">هیچ سروری پیدا نشد.</div>';
+    }
+  }).catch(err=>{
+    document.getElementById('tableBody').innerHTML = '<div style="padding:18px;color:var(--muted)">خطا در بارگذاری شیت.</div>';
+  });
+</script>
 </body>
 </html>
